@@ -1,6 +1,5 @@
 import React from 'react';
 import './index.css'
-import './app-header.css'
 import styled from 'styled-components'
 
 
