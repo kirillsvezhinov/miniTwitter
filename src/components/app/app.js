@@ -9,7 +9,6 @@ import styled from 'styled-components'
 
 
 import './index.css'
-import './app.css'
 
 const AppBlock = styled.div`
         margin: 0 auto;
