@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import './index.css'
 import './post-list-item.css'
 export default class PostListItem extends Component{
-
-
     render(){
         const {label, onDelete, onToggleImportant, onToggleLiked, important, like} = this.props;
   

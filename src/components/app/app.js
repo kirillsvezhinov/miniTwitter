@@ -24,12 +24,16 @@ export default class App extends Component {
                 {label:'Трамп победил', important:true, like:true ,id:nextId()},
                 {label:'Конституция наше все', important:false, like:false ,id:nextId()},
                 {label:'А нет, не все)', important:false, like:false ,id:nextId()}
-            ]
+            ],
+            term: '',
+            filter: 'all'
         };
         this.deleteItem = this.deleteItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.onToggleImportant = this.onToggleImportant.bind(this);
         this.onToggleLiked = this.onToggleLiked.bind(this);
+        this.onUpdateSearch= this.onUpdateSearch.bind(this);
+        this.onFilterSelect = this.onFilterSelect.bind(this);
 
     }
     deleteItem(id){
@@ -86,18 +90,47 @@ export default class App extends Component {
       
         })
     }
+    filterPost(items, filter){
+        if(filter === 'like'){
+            return items.filter(item => item.like === true)
+        }else{
+            return items
+        }
+    }
+    searchPost(items, term){
+        if(term.length === 0 ){
+            return items
+        }
+        return items.filter((item) => { 
+            return item.label.indexOf(term) > -1
+        })
+    }
+    onFilterSelect(filter){
+        this.setState({filter})
+    }
+    onUpdateSearch(term){
+        this.setState({term})
+    }
     render(){
+        const {data,term,filter} = this.state;
         const liked = this.state.data.filter(item => item.like).length;
         const allPosts = this.state.data.length;
+
+        const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
         return(
             <AppBlock>
                 <AppHeader liked={liked} allPosts={allPosts}/>
                 <div className="search-panel d-flex">
-                    <SearchPanel/>
-                    <PostStatusFilter/>
+                    <SearchPanel
+                    onUpdateSearch={this.onUpdateSearch}
+                    />
+                    <PostStatusFilter
+                    onFilterSelect = {this.onFilterSelect}
+                    filter={filter}
+                    />
                 </div>
                 <Postlist 
-                posts={this.state.data} 
+                posts={visiblePosts} 
                 onDelete = {this.deleteItem}
                 onToggleImportant = {this.onToggleImportant}
                 onToggleLiked = {this.onToggleLiked} 
