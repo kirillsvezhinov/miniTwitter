@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import './index.css'
 /* import './post-add-form.css' */
 import styled from 'styled-components'
@@ -13,18 +13,46 @@ const inputPanel = styled.input`
     flex-grow: 1;
     margin-right: 3px;`
 
-const PostAddForm = ({onAdd}) =>{
+export default class PostAddForm extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            text:''
+        }
+        this.onValueChange = this.onValueChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+    onValueChange(e){
+        this.setState({
+            text: e.target.value
+        })
+    }
+    onSubmit(e){
+        e.preventDefault();
+        if(this.state.text !=''){
+            this.props.onAdd(this.state.text)
+        }
+        
+        this.setState({
+            text:''
+        })
+    }
+
+   render(){
     return (
-        <FormPanel as='div'>
+        <FormPanel onSubmit={this.onSubmit}>
             <input
             type="text"
             placeholder="О чем вы сейчас думаете?"
             className="form-control new-post-label"
+            onChange={this.onValueChange}
+            value={this.state.text}
             />
-            <Button type="submit" outline color="secondary" onClick = { () => {onAdd('hello')}}>
+            <Button type="submit" outline color="secondary">
                 Добавить          
             </Button>
         </FormPanel>
     )
+   }
 } 
-export default PostAddForm;
+
