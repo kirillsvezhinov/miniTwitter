@@ -4,7 +4,7 @@ import './index.css'
 import styled from 'styled-components'
 import { Button } from 'reactstrap';
 
-const formPanel = styled.form`
+const FormPanel = styled.form`
     margin-top: 20px;
     
 `
@@ -13,18 +13,18 @@ const inputPanel = styled.input`
     flex-grow: 1;
     margin-right: 3px;`
 
-const PostAddForm = () =>{
+const PostAddForm = ({onAdd}) =>{
     return (
-        <formPanel>
+        <FormPanel as='div'>
             <input
             type="text"
             placeholder="О чем вы сейчас думаете?"
             className="form-control new-post-label"
             />
-            <Button type="submit" outline color="secondary">
+            <Button type="submit" outline color="secondary" onClick = { () => {onAdd('hello')}}>
                 Добавить          
             </Button>
-        </formPanel>
+        </FormPanel>
     )
 } 
 export default PostAddForm;
